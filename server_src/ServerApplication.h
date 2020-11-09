@@ -8,7 +8,7 @@ private:
 public:
 	ServerApplication(const char *service);
 	~ServerApplication();
-	void run();
+	void rackup();
 };
 
 #endif

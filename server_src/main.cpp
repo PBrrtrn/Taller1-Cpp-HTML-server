@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[]) {
 	ServerApplication app(argv[1]);
-	app.run();
+	app.rackup();
 
 	return 0;
 }

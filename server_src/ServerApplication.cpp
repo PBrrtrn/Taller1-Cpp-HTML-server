@@ -14,7 +14,7 @@ ServerApplication::ServerApplication(const char* service) {
 
 ServerApplication::~ServerApplication() { }
 
-void ServerApplication::run() {
+void ServerApplication::rackup() {
 	this->running = true;
 
 	AcceptorSocket acceptor(this->port);
