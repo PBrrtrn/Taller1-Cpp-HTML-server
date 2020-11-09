@@ -9,7 +9,7 @@ private:
 public:
 	Thread();
 	virtual ~Thread();
-	virtual void run() = 0;
+	virtual void run() = 0;										 // Clase abstracta
 	void start();
 	void join();
 	Thread(const Thread&) = delete; 					 // Saco el constructor por copia
