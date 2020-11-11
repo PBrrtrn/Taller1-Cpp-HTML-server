@@ -9,9 +9,9 @@ private:
 	Socket socket;
 	std::atomic<bool>& running;
 public:
-	AcceptorSocket(int port, std::atomic<bool>& running);
-	void run();
+	AcceptorSocket(const char *port, std::atomic<bool>& running);
 	~AcceptorSocket();
+	void run();
 };
 
 #endif

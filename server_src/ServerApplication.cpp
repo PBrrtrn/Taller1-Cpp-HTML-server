@@ -6,10 +6,7 @@
 #include "AcceptorSocket.h"
 
 ServerApplication::ServerApplication(const char* service) {
-	std::stringstream port_string;
-	port_string << service;
-	port_string >> this->port;
-
+	this->port = service;
 	this->running = false;
 }
 

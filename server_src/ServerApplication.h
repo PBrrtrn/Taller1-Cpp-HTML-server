@@ -6,7 +6,7 @@
 class ServerApplication {
 private:
 	std::atomic<bool> running;
-	int port;
+	const char *port;
 public:
 	ServerApplication(const char *service);
 	~ServerApplication();
