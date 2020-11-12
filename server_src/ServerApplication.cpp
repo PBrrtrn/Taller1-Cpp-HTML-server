@@ -4,8 +4,10 @@
 
 #include "ServerApplication.h"
 #include "AcceptorSocket.h"
+#include "../common_src/Socket.h"
 
 ServerApplication::ServerApplication(const char* service) {
+	// El acceptor socket lo puedo inicializar por MIL acá
 	this->port = service;
 	this->running = false;
 }
@@ -23,5 +25,7 @@ void ServerApplication::rackup() {
 		if (user_input == 'q') this->running = false;
 	}
 
+	acceptor.shutdown();
 	acceptor.join();
+	std::cout << "Closing Server Application" << std::endl;
 }

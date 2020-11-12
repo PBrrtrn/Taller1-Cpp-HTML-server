@@ -12,12 +12,11 @@
 
 Socket::Socket() {
 	this->fd = -1;
-	std::cout << "Starting socket" << std::endl;
 }
 
 Socket::~Socket() {
-	if (this->fd != -1) ::close(this->fd);
-	std::cout << "Closing and freeing socket " << std::endl;
+	this->shutdown();
+	this->close();
 }
 
 Socket::Socket(Socket&& other) {
@@ -63,38 +62,24 @@ int Socket::connect(const char *host, const char *service) {
 		if (this->fd == -1) continue;
 
 		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) break;
-		else {
-			std::cout << "Error in connect" << std::endl;
-			return 1;
-			// raise error
-		}
+		else throw "SOCKET ERROR: Error in connect";
 	}
 	freeaddrinfo(addresses);
 
-	if (addr == NULL) {
-		std::cout << "SOCKET ERROR: Could not find suitable address to connect to" << std::endl;
-		return 1;
-		// raise error
-	}
+	if (addr == NULL) throw "SOCKET ERROR: Could not find suitable address to connect to";
 	return 0;
 }
 
 int Socket::listen(int queue_size) {
-	if (::listen(this->fd, queue_size) != 0) 
-		std::cout << "Failed to start listening!" << std::endl; // throw error
-	else
-		std::cout << "Listening!" << std::endl;
+	if (::listen(this->fd, queue_size) != 0) throw -1;
 	return 0;
 }
 
 Socket Socket::accept() {
-	std::cout << "Trying to accept a client" << std::endl;
+	std::cout << "Waiting to accept a client" << std::endl;
 	Socket peer;
 	peer.fd = ::accept(this->fd, NULL, NULL);
-	if (peer.fd == -1) {
-		std::cout << "Failed to accept a client" << std::endl;
-		// raise error
-	}
+	if (peer.fd == -1) throw -1;
 	std::cout << "Accepted client" << std::endl;
 	return peer;
 }
@@ -108,7 +93,7 @@ int Socket::send(const char *data, size_t data_size) {
 										 		  	MSG_NOSIGNAL);
 
 		switch(bytes_sent) {
-			// case -1 : raise error
+			case -1 : throw "send error";
 			case 0 : return total_bytes_sent;
 			default: total_bytes_sent += bytes_sent;
 		}
@@ -116,14 +101,40 @@ int Socket::send(const char *data, size_t data_size) {
 	return total_bytes_sent;
 }
 
+int Socket::receive(char *buffer, size_t n_bytes) {
+	size_t total_bytes_received = 0;
+	while (total_bytes_received < n_bytes) {
+		int bytes_received = ::recv(this->fd,
+															  buffer + total_bytes_received,
+															  n_bytes - total_bytes_received,
+															  0);
+		switch (bytes_received) {
+			case -1 : throw "receive error";
+			case 0: return total_bytes_received;
+			default: total_bytes_received += bytes_received;
+		}
+	}
+	return total_bytes_received;
+}
+
+/*
 std::vector<char> Socket::receive() {
 	std::vector<char> result;
 	char buffer[BUFFER_SIZE];
 	int recv_bytes;
-	while ((recv_bytes = ::recv(this->fd, buffer, BUFFER_SIZE-1, 0)) != 0) {
+	while ((recv_bytes = ::recv(this->fd, buffer, BUFFER_SIZE-2, 0)) != 0) {
 		result.insert(result.end(), buffer, buffer+recv_bytes);
 	}
 	return result;
+}
+*/
+
+void Socket::shutdown() {
+	if (this->fd != -1) ::shutdown(this->fd, SHUT_RDWR);
+}
+
+void Socket::close() {
+	if (this->fd != -1)	::close(this->fd);
 }
 
 struct addrinfo* Socket::initializeAddrinfo(const char *host,
@@ -137,6 +148,6 @@ struct addrinfo* Socket::initializeAddrinfo(const char *host,
   hints.ai_flags = flags;
 
   if (getaddrinfo(host, service, &hints, &addresses) != 0)
-  	std::cout << "Error en getaddrinfo" << std::endl;
-  return addresses;
+  	throw "Error in getaddrinfo";
+  else return addresses;
 }
