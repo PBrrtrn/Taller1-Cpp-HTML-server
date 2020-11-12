@@ -3,13 +3,14 @@
 
 #include "../common_src/Thread.h"
 #include "../common_src/Socket.h"
+#include "Protocol.h"
 
 class ActiveSocket : public Thread {
 private:
 	Socket socket;
-	// Protocol protocol;
+	Protocol& protocol;
 public:
-	ActiveSocket(Socket&& socket);// Protocol protocol);
+	ActiveSocket(Socket&& socket, Protocol& protocol);
 	~ActiveSocket();
 	void run();
 	bool talking;

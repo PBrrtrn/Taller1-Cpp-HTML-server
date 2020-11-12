@@ -4,8 +4,10 @@
 
 #include "AcceptorSocket.h"
 
-AcceptorSocket::AcceptorSocket(const char *port, std::atomic<bool>& running)
-															 : running(running) {
+AcceptorSocket::AcceptorSocket(const char *port,
+															 std::atomic<bool>& running,
+															 Protocol& protocol)
+															 : running(running), protocol(protocol) {
 	this->socket.bind(port);
 	this->socket.listen(1);
 	std::cout << "Created acceptor socket!" << std::endl;
@@ -33,7 +35,8 @@ void AcceptorSocket::run() {
 		*/
 		try {
 			Socket peer = this->socket.accept();
-			ActiveSocket *active_socket = new ActiveSocket(std::move(peer));
+			ActiveSocket *active_socket = new ActiveSocket(std::move(peer), 
+																										 this->protocol);
 			this->active_sockets.push_back(active_socket);
 
 			active_socket->start();

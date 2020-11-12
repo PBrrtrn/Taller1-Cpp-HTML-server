@@ -3,6 +3,7 @@
 #include <atomic>
 
 #include "ServerApplication.h"
+#include "Protocol.h"
 #include "AcceptorSocket.h"
 #include "../common_src/Socket.h"
 
@@ -17,7 +18,8 @@ ServerApplication::~ServerApplication() { }
 void ServerApplication::rackup() {
 	this->running = true;
 
-	AcceptorSocket acceptor(this->port, this->running);
+	HTMLProtocol protocol;
+	AcceptorSocket acceptor(this->port, this->running, protocol);
 	acceptor.start();
 
 	while (this->running) {
