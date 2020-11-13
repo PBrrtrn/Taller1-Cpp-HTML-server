@@ -11,11 +11,11 @@ public:
 	virtual void handleSocket(Socket& socket) = 0;
 };
 
-class HTMLProtocol : public Protocol {
+class HTTPProtocol : public Protocol {
 private:
 	ResourceRepository& resources;
 public:
-	HTMLProtocol(ResourceRepository& resources);
+	HTTPProtocol(ResourceRepository& resources);
 	void handleSocket(Socket& socket);
 };
 
