@@ -1,7 +1,10 @@
 #include <iostream>
+#include <cstring>
 
 #include "ClientApplication.h"
 #include "../common_src/Socket.h"
+
+#define CHUNK_SIZE 64
 
 ClientApplication::ClientApplication(const char* host, const char* port) {
 	try { 
@@ -14,5 +17,12 @@ ClientApplication::ClientApplication(const char* host, const char* port) {
 ClientApplication::~ClientApplication() { }
 
 void ClientApplication::run() {
-	this->socket.send("Hola", 4);
+	char buffer[CHUNK_SIZE];
+	FILE *file = stdin;
+	while (feof(file) == 0) {
+		memset(buffer, '\0', CHUNK_SIZE);
+		int bytes_read = fread(buffer, sizeof(char), CHUNK_SIZE, file);
+
+		this->socket.send(buffer, bytes_read);
+	}
 }

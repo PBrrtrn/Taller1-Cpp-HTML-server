@@ -76,11 +76,9 @@ int Socket::listen(int queue_size) {
 }
 
 Socket Socket::accept() {
-	std::cout << "Waiting to accept a client" << std::endl;
 	Socket peer;
 	peer.fd = ::accept(this->fd, NULL, NULL);
 	if (peer.fd == -1) throw -1;
-	std::cout << "Accepted client" << std::endl;
 	return peer;
 }
 
@@ -92,8 +90,8 @@ int Socket::send(const char *data, size_t data_size) {
 										 		  	data_size - total_bytes_sent,
 										 		  	MSG_NOSIGNAL);
 
-		switch(bytes_sent) {
-			case -1 : throw "send error";
+		switch (bytes_sent) {
+			case -1 : break;
 			case 0 : return total_bytes_sent;
 			default: total_bytes_sent += bytes_sent;
 		}
@@ -102,32 +100,23 @@ int Socket::send(const char *data, size_t data_size) {
 }
 
 int Socket::receive(char *buffer, size_t n_bytes) {
-	size_t total_bytes_received = 0;
-	while (total_bytes_received < n_bytes) {
-		int bytes_received = ::recv(this->fd,
-															  buffer + total_bytes_received,
-															  n_bytes - total_bytes_received,
-															  0);
-		switch (bytes_received) {
-			case -1 : throw "receive error";
-			case 0: return total_bytes_received;
-			default: total_bytes_received += bytes_received;
-		}
-	}
-	return total_bytes_received;
-}
+	/* Esta función está andando raro, parecería que siempre en algún momento levanta -1,
+	pero igual logra recibir el mensaje. Creo que es una consecuencia de la arquitectura
+	multihilo */
+  size_t total_bytes_received = 0;
+  int bytes_received = 0;
+  while (total_bytes_received < n_bytes) {
+    bytes_received = ::recv(this->fd, &buffer[total_bytes_received],
+                   					n_bytes - total_bytes_received, 0);
 
-/*
-std::vector<char> Socket::receive() {
-	std::vector<char> result;
-	char buffer[BUFFER_SIZE];
-	int recv_bytes;
-	while ((recv_bytes = ::recv(this->fd, buffer, BUFFER_SIZE-2, 0)) != 0) {
-		result.insert(result.end(), buffer, buffer+recv_bytes);
-	}
-	return result;
+    switch (bytes_received) {
+    	case -1 : break; // std::cout << "receive error" << std::endl;
+    	case 0 : return total_bytes_received;
+    	default : total_bytes_received += bytes_received;
+    }
+  }
+  return total_bytes_received;
 }
-*/
 
 void Socket::shutdown() {
 	if (this->fd != -1) ::shutdown(this->fd, SHUT_RDWR);

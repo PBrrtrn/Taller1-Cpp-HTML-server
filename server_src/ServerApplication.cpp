@@ -8,7 +8,12 @@
 #include "../common_src/Socket.h"
 
 ServerApplication::ServerApplication(const char* service) {
-	// El acceptor socket lo puedo inicializar por MIL acá
+	// El acceptor socket lo puedo inicializar por MIL acá y que sea parte del estado
+	/* Atributos:
+				- AcceptorSocket acceptor
+				- std::atomic<bool> running
+				- Protocol http_protocol
+	*/
 	this->port = service;
 	this->running = false;
 }

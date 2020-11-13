@@ -25,6 +25,7 @@ public:
 	int listen(int queue_size);
 	Socket accept();
 	int send(const char *data, size_t data_size);
+	// int receive(void *response, size_t length);
 	int receive(char *buffer, size_t n_bytes);
 	void shutdown();
 	void close();

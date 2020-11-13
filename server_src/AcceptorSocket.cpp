@@ -10,7 +10,6 @@ AcceptorSocket::AcceptorSocket(const char *port,
 															 : running(running), protocol(protocol) {
 	this->socket.bind(port);
 	this->socket.listen(1);
-	std::cout << "Created acceptor socket!" << std::endl;
 }
 
 AcceptorSocket::~AcceptorSocket() {
