@@ -3,17 +3,16 @@
 
 #include "../common_src/Thread.h"
 #include "../common_src/Socket.h"
-#include "Protocol.h"
 
 class ActiveSocket : public Thread {
 private:
+	bool finished_talking = false;
 	Socket socket;
-	Protocol& protocol;
 public:
-	ActiveSocket(Socket&& socket, Protocol& protocol);
+	ActiveSocket(Socket peer);
 	~ActiveSocket();
-	void run();
-	bool talking;
+	void run() override;
+	bool finishedTalking();
 };
 
 #endif

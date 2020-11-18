@@ -1,4 +1,6 @@
+/*
 #include <sstream>
+#include <iostream>
 
 #include "HTTPRequest.h"
 
@@ -11,14 +13,16 @@ HTTPRequest::HTTPRequest(std::string message) {
 
 HTTPRequest::~HTTPRequest() { }
 
+GetRequest::GetRequest(std::string message) : HTTPRequest(message) { }
+
 GetRequest::~GetRequest() { }
 
 void GetRequest::print() {
-	
+	std::cout << "Get request" << std::endl;
 }
 
-HTTPResponse& GetRequest::execute(ResourceRepository& resources) {
-
+HTTPResponse* GetRequest::execute(ResourceRepository& resources) {
+	return new OKResponse(std::string("resource"));
 }
 
 PostRequest::PostRequest(std::string message) : HTTPRequest(message) {
@@ -27,9 +31,10 @@ PostRequest::PostRequest(std::string message) : HTTPRequest(message) {
 }
 
 void PostRequest::print() {
-
+	std::cout << "Post request" << std::endl;
 }
 
-HTTPResponse& PostRequest::execute(ResourceRepository& resources) {
-
+HTTPResponse* PostRequest::execute(ResourceRepository& resources) {
+	return new OKResponse(std::string("resource"));
 }
+*/

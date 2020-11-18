@@ -10,6 +10,8 @@
 
 #define BUFFER_SIZE 64
 
+#define BUFFER_SIZE 64
+
 Socket::Socket() {
 	this->fd = -1;
 }
@@ -21,10 +23,12 @@ Socket::~Socket() {
 
 Socket::Socket(Socket&& other) {
 	this->fd = std::move(other.fd);
+	other.fd = -1;
 }
 
 Socket& Socket::operator=(Socket&& other) {
 	this->fd = std::move(other.fd);
+	other.fd = -1;
 	return *this;
 }
 
@@ -100,9 +104,6 @@ int Socket::send(const char *data, size_t data_size) {
 }
 
 int Socket::receive(char *buffer, size_t n_bytes) {
-	/* Esta función está andando raro, parecería que siempre en algún momento levanta -1,
-	pero igual logra recibir el mensaje. Creo que es una consecuencia de la arquitectura
-	multihilo */
   size_t total_bytes_received = 0;
   int bytes_received = 0;
   while (total_bytes_received < n_bytes) {

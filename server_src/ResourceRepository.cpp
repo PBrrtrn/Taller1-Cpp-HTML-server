@@ -1,22 +1,19 @@
 #include "ResourceRepository.h"
 
-ResourceRepository::ResourceRepository(std::string root_contents) {
-	
+ResourceRepository::ResourceRepository(const char* root_contents) {
+	this->resources[std::string("/")] = root_contents;
 }
 
 ResourceRepository::~ResourceRepository() { }
 
 int ResourceRepository::addResource(std::string resource_name,
-																						 std::string resource) {
-	mutex.lock();
-
-	mutex.unlock();
+																		std::string resource) {
+	const std::lock_guard<std::mutex> lock(this->mutex);
+	this->resources[resource_name] = resource;
 	return 0;
 }
 
-std::string ResourceRepository::getResource(std::string resource_name) {
-	mutex.lock();
-
-	mutex.unlock();
-	return std::string("OK");
+const std::string ResourceRepository::getResource(std::string resource_name) {
+	const std::lock_guard<std::mutex> lock(this->mutex);
+	return this->resources[resource_name];
 }

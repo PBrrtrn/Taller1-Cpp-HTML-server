@@ -3,10 +3,13 @@
 
 #include <atomic>
 
+#include "AcceptorSocket.h"
+// #include "Protocol.h"
+
 class ServerApplication {
 private:
 	std::atomic<bool> running;
-	const char *port;
+	AcceptorSocket acceptor;
 public:
 	ServerApplication(const char *service);
 	~ServerApplication();

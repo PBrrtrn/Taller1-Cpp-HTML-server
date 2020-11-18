@@ -1,3 +1,4 @@
+/*
 #ifndef __HTTP_REQUEST_H__
 #define __HTTP_REQUEST_H__
 
@@ -12,14 +13,15 @@ private:
 public:
 	HTTPRequest(std::string message);
 	virtual ~HTTPRequest();
-	virtual HTTPResponse& execute(ResourceRepository& resources) = 0;
+	virtual HTTPResponse* execute(ResourceRepository& resources) = 0;
 	virtual void print() = 0;
 };
 
 class GetRequest : public HTTPRequest {
 public:
+	GetRequest(std::string message);
 	virtual ~GetRequest();
-	virtual HTTPResponse& execute(ResourceRepository& resources);
+	virtual HTTPResponse* execute(ResourceRepository& resources);
 	virtual void print();
 };
 
@@ -29,8 +31,9 @@ private:
 public:
 	PostRequest(std::string message);
 	virtual ~PostRequest();
-	virtual HTTPResponse& execute(ResourceRepository& resources);
+	virtual HTTPResponse* execute(ResourceRepository& resources);
 	virtual void print();
 };
 
 #endif
+*/

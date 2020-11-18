@@ -9,10 +9,10 @@ private:
 	std::mutex mutex;
 	std::unordered_map<std::string, std::string> resources;
 public:
-	ResourceRepository(std::string root_contents);
+	ResourceRepository(const char *root_contents);
 	~ResourceRepository();
 	int addResource(std::string resource_name, std::string resource);
-	std::string getResource(std::string resource_name);
+	const std::string getResource(std::string resource_name);
 };
 
 #endif

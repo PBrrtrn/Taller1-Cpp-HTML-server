@@ -1,53 +1,50 @@
 #include <iostream>
-#include <atomic>
 #include <unistd.h>
 
 #include "AcceptorSocket.h"
 
-AcceptorSocket::AcceptorSocket(const char *port,
-															 std::atomic<bool>& running,
-															 Protocol& protocol)
-															 : running(running), protocol(protocol) {
+#define QUEUE_SIZE 5
+
+AcceptorSocket::AcceptorSocket(const char* port, 
+															 std::atomic<bool>& server_running)
+	: server_running(server_running) {
 	this->socket.bind(port);
-	this->socket.listen(1);
+	this->socket.listen(QUEUE_SIZE);
 }
 
 AcceptorSocket::~AcceptorSocket() {
-	for (ActiveSocket *active_socket : this->active_sockets) {
-		delete active_socket;
-	}
+	for (ActiveSocket* client : this->clients) delete client;
+
+	this->socket.shutdown();
+	this->socket.close();
+	this->join();
 }
 
 void AcceptorSocket::run() {
-	while (this->running) {
-		/* 
-		Aceptar un cliente en un ActiveSocket con un thread aparte
-		Recibir el mensaje del ActiveSocket
-		Hacer algo con el mensaje 
-			-> Posiblemente inyectarle al AcceptorSocket (por movimiento)
-				 un objeto HTMLProtocol de tipo Protocol que establezca qué
-				 hacer con el mensaje, a modo de desacoplar AcceptorSocket
-				 de la implementación de HTML.
-			-> Otra alternativa: Protocol puede recibir el ActiveSocket
-			   (por referencia) y manejar la comunicación con el cliente
-			   a partir de él
-		*/
+	while (this->server_running) {
+		Socket peer;
 		try {
-			Socket peer = this->socket.accept();
-			ActiveSocket *active_socket = new ActiveSocket(std::move(peer), 
-																										 this->protocol);
-			this->active_sockets.push_back(active_socket);
-
-			active_socket->start();
-
-			// ### thread cleanup ###
-		} catch (int error) {
-			std::cout << "Program halt" << std::endl;
+			peer = this->socket.accept();
+		} catch (int) {
+			std::cout << "closing acceptor socket" << std::endl;
+			break;
 		}
+		ActiveSocket *active_socket = new ActiveSocket(std::move(peer));
+		active_socket->start();
+		this->clients.push_back(active_socket);
+
+		// cleanup();
 	}
 }
 
-void AcceptorSocket::shutdown() {
-	this->socket.shutdown();
-	this->socket.close();
+void AcceptorSocket::cleanup() {
+	auto it = this->clients.begin();
+	while (it != clients.end()) {
+		if ((*it)->finishedTalking()) {
+			delete *it;
+			clients.erase(it);
+		} else {
+			it++;
+		}
+	}
 }
