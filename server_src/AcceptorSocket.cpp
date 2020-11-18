@@ -5,9 +5,9 @@
 
 #define QUEUE_SIZE 5
 
-AcceptorSocket::AcceptorSocket(const char* port, 
+AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol,
 															 std::atomic<bool>& server_running)
-	: server_running(server_running) {
+	: protocol(protocol), server_running(server_running) {
 	this->socket.bind(port);
 	this->socket.listen(QUEUE_SIZE);
 }
@@ -29,7 +29,7 @@ void AcceptorSocket::run() {
 			std::cout << "closing acceptor socket" << std::endl;
 			break;
 		}
-		ActiveSocket *active_socket = new ActiveSocket(std::move(peer));
+		ActiveSocket *active_socket = new ActiveSocket(std::move(peer), protocol);
 		active_socket->start();
 		this->clients.push_back(active_socket);
 

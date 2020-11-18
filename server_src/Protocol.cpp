@@ -9,10 +9,15 @@ Protocol::Protocol() {}
 
 Protocol::~Protocol() {}
 
-HTTPProtocol::HTTPProtocol(ResourceRepository &resources) 
-													 : resources(resources) { }
+HTTPProtocol::HTTPProtocol() { }
 
 void HTTPProtocol::handleSocket(Socket& socket) {
+	std::cout << "Handling socket at HTTPProtocol!" << std::endl;
+	std::stringstream stream;
+	char buffer[BUFFER_SIZE] = {0};
+	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
+	std::cout << stream.str() << std::endl;
+	/*
 	std::stringstream stream;
 	char buffer[BUFFER_SIZE] = {0};
 	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
@@ -20,7 +25,6 @@ void HTTPProtocol::handleSocket(Socket& socket) {
 	std::string word;
 	stream >> word;
 
-	/*
 	std::string resource_name;
 	stream >> resource_name;
 

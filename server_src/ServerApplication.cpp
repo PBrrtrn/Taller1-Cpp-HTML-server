@@ -3,7 +3,7 @@
 #include "ServerApplication.h"
 
 ServerApplication::ServerApplication(const char* service) : 
-	running(false), acceptor(service, running) {
+	running(false), protocol(), acceptor(service, protocol, running) {
 }
 
 ServerApplication::~ServerApplication() {}

@@ -42,6 +42,7 @@ int Socket::bind(const char *service) {
 
 		if (::bind(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) break;
 		else {
+			freeaddrinfo(addresses);
 			std::cout << "Error in bind" << std::endl;
 			return 1;
 			// raise error
@@ -65,8 +66,12 @@ int Socket::connect(const char *host, const char *service) {
 		this->fd = ::socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
 		if (this->fd == -1) continue;
 
-		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) break;
-		else throw "SOCKET ERROR: Error in connect";
+		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) 
+			break;
+		else {
+			throw "SOCKET ERROR: Error in connect";
+			freeaddrinfo(addresses);
+		}
 	}
 	freeaddrinfo(addresses);
 

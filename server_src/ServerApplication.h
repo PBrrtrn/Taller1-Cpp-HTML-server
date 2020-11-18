@@ -4,11 +4,12 @@
 #include <atomic>
 
 #include "AcceptorSocket.h"
-// #include "Protocol.h"
+#include "Protocol.h"
 
 class ServerApplication {
 private:
 	std::atomic<bool> running;
+	HTTPProtocol protocol;
 	AcceptorSocket acceptor;
 public:
 	ServerApplication(const char *service);

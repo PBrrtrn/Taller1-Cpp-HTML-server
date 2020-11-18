@@ -6,16 +6,18 @@
 
 #include "../common_src/Socket.h"
 #include "../common_src/Thread.h"
+#include "Protocol.h"
 #include "ActiveSocket.h"
 
 class AcceptorSocket : public Thread {
 private:
-	std::atomic<bool>& server_running;
+	Protocol& protocol;
 	Socket socket;
+	std::atomic<bool>& server_running;
 	std::list<ActiveSocket*> clients;
 	void cleanup();
 public:
-	AcceptorSocket(const char* port, 
+	AcceptorSocket(const char* port, Protocol& protocol,
 								 std::atomic<bool>& server_running);
 	~AcceptorSocket() override;
 	void run() override;

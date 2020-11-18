@@ -5,7 +5,8 @@
 
 #define BUFFER_SIZE 64
 
-ActiveSocket::ActiveSocket(Socket socket) {
+ActiveSocket::ActiveSocket(Socket socket, Protocol& protocol)
+	: protocol(protocol) {
 	this->socket = std::move(socket);
 }
 
@@ -13,14 +14,10 @@ ActiveSocket::~ActiveSocket() {
 	this->socket.shutdown();
 	this->socket.close();
 	this->join();
-	std::cout << "closing active socket" << std::endl;
 }
 
 void ActiveSocket::run() {
-	std::stringstream stream;
-	char buffer[BUFFER_SIZE] = {0};
-	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
-	std::cout << stream.str() << std::endl;
+	this->protocol.handleSocket(this->socket);
 	this->finished_talking = true;
 }
 
