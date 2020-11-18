@@ -2,7 +2,7 @@
 #define __PROTOCOL_H__
 
 #include "../common_src/Socket.h"
-// #include "ResourceRepository.h"
+#include "ResourceRepository.h"
 
 class Protocol {
 public:
@@ -13,10 +13,10 @@ public:
 
 class HTTPProtocol : public Protocol {
 private:
-	// ResourceRepository& resources;
+	ResourceRepository& resources;
 public:
-	HTTPProtocol();
-	void handleSocket(Socket& socket);
+	HTTPProtocol(ResourceRepository& resources);
+	void handleSocket(Socket& socket) override;
 };
 
 #endif

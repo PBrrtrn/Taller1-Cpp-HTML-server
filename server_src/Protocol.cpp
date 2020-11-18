@@ -9,7 +9,8 @@ Protocol::Protocol() {}
 
 Protocol::~Protocol() {}
 
-HTTPProtocol::HTTPProtocol() { }
+HTTPProtocol::HTTPProtocol(ResourceRepository& resources) 
+	: resources(resources) { }
 
 void HTTPProtocol::handleSocket(Socket& socket) {
 	std::cout << "Handling socket at HTTPProtocol!" << std::endl;
