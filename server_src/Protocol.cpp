@@ -1,7 +1,10 @@
 #include <sstream>
+#include <memory>
 #include <iostream>
 
 #include "Protocol.h"
+#include "HTTPResponse.h"
+#include "HTTPRequest.h"
 
 #define BUFFER_SIZE 64
 
@@ -10,21 +13,26 @@ Protocol::Protocol() {}
 Protocol::~Protocol() {}
 
 HTTPProtocol::HTTPProtocol(ResourceRepository& resources) 
-	: resources(resources) { }
+	: resources(resources), request_factory() { }
 
 void HTTPProtocol::handleSocket(Socket& socket) {
-	std::cout << "Handling socket at HTTPProtocol!" << std::endl;
-	std::stringstream stream;
-	char buffer[BUFFER_SIZE] = {0};
-	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
-	std::cout << stream.str() << std::endl;
-	/*
 	std::stringstream stream;
 	char buffer[BUFFER_SIZE] = {0};
 	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
 
+	std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
+	/*
 	std::string word;
+	std::string resource_name;
 	stream >> word;
+	stream >> resource_name;
+
+	std::cout << word + " " + resource_name + " HTTP/1.1" << std::endl;
+
+	std::stringstream stream;
+	char buffer[BUFFER_SIZE] = {0};
+	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
+
 
 	std::string resource_name;
 	stream >> resource_name;

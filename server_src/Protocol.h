@@ -3,6 +3,7 @@
 
 #include "../common_src/Socket.h"
 #include "ResourceRepository.h"
+#include "RequestFactory.h"
 
 class Protocol {
 public:
@@ -14,6 +15,7 @@ public:
 class HTTPProtocol : public Protocol {
 private:
 	ResourceRepository& resources;
+	RequestFactory request_factory;
 public:
 	HTTPProtocol(ResourceRepository& resources);
 	void handleSocket(Socket& socket) override;

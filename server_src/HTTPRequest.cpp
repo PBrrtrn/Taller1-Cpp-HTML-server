@@ -1,40 +1,36 @@
-/*
-#include <sstream>
 #include <iostream>
 
 #include "HTTPRequest.h"
 
-HTTPRequest::HTTPRequest(std::string message) {
-	std::stringstream stream;
-	stream << message;
-
-	stream >> this->resource_name;
-}
+HTTPRequest::HTTPRequest(std::string resource_name) 
+	: resource_name(resource_name) { }
 
 HTTPRequest::~HTTPRequest() { }
 
-GetRequest::GetRequest(std::string message) : HTTPRequest(message) { }
+GetRequest::GetRequest(std::string resource_name) 
+	: HTTPRequest(resource_name) { }
 
-GetRequest::~GetRequest() { }
-
-void GetRequest::print() {
-	std::cout << "Get request" << std::endl;
+std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
+	std::cout << "Executing GET request" << std::endl;
+	// Implementar
+	std::unique_ptr<HTTPResponse> ptr(new NotFoundResponse);
+	return ptr;
 }
 
-HTTPResponse* GetRequest::execute(ResourceRepository& resources) {
-	return new OKResponse(std::string("resource"));
+PostRequest::PostRequest(std::string resource_name, std::string resource_body)
+	: HTTPRequest(resource_name), resource_body(resource_body) { }
+
+std::unique_ptr<HTTPResponse> PostRequest::execute(ResourceRepository& repo) {
+	std::cout << "Executing POST request" << std::endl;
+	// Impĺementar
+	std::unique_ptr<HTTPResponse> ptr(new NotFoundResponse);
+	return ptr;
 }
 
-PostRequest::PostRequest(std::string message) : HTTPRequest(message) {
-	size_t begin = message.find("\n\n");
-	this->body = message.substr(begin + 2, message.npos);
-}
+BadRequest::BadRequest(std::string resource_name)
+  : HTTPRequest(resource_name) { }
 
-void PostRequest::print() {
-	std::cout << "Post request" << std::endl;
+std::unique_ptr<HTTPResponse> BadRequest::execute(ResourceRepository& repo) {
+	std::unique_ptr<HTTPResponse> ptr(new NotAllowedResponse);
+	return ptr;
 }
-
-HTTPResponse* PostRequest::execute(ResourceRepository& resources) {
-	return new OKResponse(std::string("resource"));
-}
-*/

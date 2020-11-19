@@ -1,39 +1,38 @@
-/*
 #ifndef __HTTP_REQUEST_H__
 #define __HTTP_REQUEST_H__
 
-#include <string>
+#include <memory>
 
-#include "HTTPResponse.h"
 #include "ResourceRepository.h"
+#include "HTTPResponse.h"
 
 class HTTPRequest {
 private:
 	std::string resource_name;
 public:
-	HTTPRequest(std::string message);
+	HTTPRequest(std::string resource_name);
 	virtual ~HTTPRequest();
-	virtual HTTPResponse* execute(ResourceRepository& resources) = 0;
-	virtual void print() = 0;
+	virtual std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) = 0;
 };
 
 class GetRequest : public HTTPRequest {
 public:
-	GetRequest(std::string message);
-	virtual ~GetRequest();
-	virtual HTTPResponse* execute(ResourceRepository& resources);
-	virtual void print();
+	GetRequest(std::string resource_name);
+	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
 class PostRequest : public HTTPRequest {
 private:
-	std::string body;
+	std::string resource_body;
 public:
-	PostRequest(std::string message);
-	virtual ~PostRequest();
-	virtual HTTPResponse* execute(ResourceRepository& resources);
-	virtual void print();
+	PostRequest(std::string resource_name,
+							std::string resource_body);
+	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
+};
+
+class BadRequest : public HTTPRequest {
+	BadRequest(std::string resource_name);
+	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
 #endif
-*/
