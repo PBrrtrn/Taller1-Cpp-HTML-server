@@ -17,13 +17,13 @@ HTTPProtocol::HTTPProtocol(ResourceRepository& resources)
 
 void HTTPProtocol::handleSocket(Socket& socket) {
 	std::stringstream stream;
+
 	char buffer[BUFFER_SIZE] = {0};
-	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
-
+	while (socket.receive(buffer, BUFFER_SIZE) != 0) stream << buffer;
 	std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
-	std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
 
+	std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
 	std::string response_string = response->getResponse();
 
-	std::cout << response_string << std::endl;
+	socket.send(response_string.c_str(), response_string.length());
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cstring>
 
 #include "ClientApplication.h"
@@ -17,12 +18,14 @@ ClientApplication::ClientApplication(const char* host, const char* port) {
 ClientApplication::~ClientApplication() { }
 
 void ClientApplication::run() {
-	char buffer[CHUNK_SIZE];
-	FILE *file = stdin;
-	while (feof(file) == 0) {
-		memset(buffer, '\0', CHUNK_SIZE);
-		int bytes_read = fread(buffer, sizeof(char), CHUNK_SIZE, file);
+	std::stringstream input_stream;
+	input_stream << std::cin.rdbuf();
+	std::string output = input_stream.str();
+	this->socket.send(output.c_str(), output.length());
 
-		this->socket.send(buffer, bytes_read);
-	}
+	std::stringstream output_stream;
+	char response[CHUNK_SIZE] = {0};
+	while (this->socket.receive(response, CHUNK_SIZE-1) != 0)	output_stream << response;
+
+	std::cout << output_stream.str() << std::endl;
 }
