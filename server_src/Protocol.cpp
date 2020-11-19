@@ -21,6 +21,7 @@ void HTTPProtocol::handleSocket(Socket& socket) {
 	while (socket.receive(buffer, BUFFER_SIZE-1) != 0) stream << buffer;
 
 	std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
+	std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
 	/*
 	std::string word;
 	std::string resource_name;

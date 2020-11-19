@@ -31,6 +31,7 @@ public:
 };
 
 class BadRequest : public HTTPRequest {
+public:
 	BadRequest(std::string resource_name);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };

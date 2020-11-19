@@ -26,7 +26,7 @@ std::unique_ptr<HTTPRequest> RequestFactory::operator()(std::string message) {
 	} else if (word.compare("GET") == 0) {
 		ptr.reset(new GetRequest(resource_name));
 	} else {
-		
+		ptr.reset(new BadRequest(resource_name));
 	}
 
 	std::cout << word + " " + resource_name + " HTTP/1.1" << std::endl;
