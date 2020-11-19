@@ -7,7 +7,7 @@
 #include "HTTPResponse.h"
 
 class HTTPRequest {
-private:
+protected:
 	std::string resource_name;
 public:
 	HTTPRequest(std::string resource_name);
@@ -31,8 +31,10 @@ public:
 };
 
 class BadRequest : public HTTPRequest {
+private:
+	std::string invalid_method;
 public:
-	BadRequest(std::string resource_name);
+	BadRequest(std::string resource_name, std::string invalid_method);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 

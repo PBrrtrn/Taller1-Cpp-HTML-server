@@ -3,41 +3,35 @@
 
 #include <string>
 
-class HTTPResponse {
+struct HTTPResponse {
 public:
 	HTTPResponse();
 	virtual ~HTTPResponse();
 	virtual std::string getResponse() = 0;
 };
 
-class OKResponse : public HTTPResponse {
+struct OKResponse : public HTTPResponse {
 private:
 	std::string body;
 public:
 	OKResponse(std::string body);
-	virtual ~OKResponse();
-	virtual std::string getResponse();
+	std::string getResponse();
 };
 
-class ForbiddenResponse : public HTTPResponse {
-public:
-	ForbiddenResponse();
-	virtual ~ForbiddenResponse();
-	virtual std::string getResponse();
+struct ForbiddenResponse : public HTTPResponse {
+	std::string getResponse();
 };
 
-class NotFoundResponse : public HTTPResponse {
-public:
-	NotFoundResponse();
-	virtual ~NotFoundResponse();
-	virtual std::string getResponse();
+struct NotFoundResponse : public HTTPResponse {
+	std::string getResponse();
 };
 
-class NotAllowedResponse : public HTTPResponse {
+struct NotAllowedResponse : public HTTPResponse {
+private:
+	std::string method_called;
 public:
-	NotAllowedResponse();
-	virtual ~NotAllowedResponse();
-	virtual std::string getResponse();
+	NotAllowedResponse(std::string method_called);
+	std::string getResponse();
 };
 
 #endif

@@ -22,4 +22,8 @@ void HTTPProtocol::handleSocket(Socket& socket) {
 
 	std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
 	std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
+
+	std::string response_string = response->getResponse();
+
+	std::cout << response_string << std::endl;
 }

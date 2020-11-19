@@ -7,6 +7,10 @@
 #include "HTTPRequest.h"
 
 class RequestFactory {
+private:
+	std::unique_ptr<HTTPRequest> build(std::string message,
+																		 std::string method,
+																		 std::string resource_name);
 public:
 	RequestFactory();
 	~RequestFactory();

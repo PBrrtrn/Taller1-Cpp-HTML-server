@@ -8,28 +8,30 @@ RequestFactory::RequestFactory() { }
 RequestFactory::~RequestFactory() { }
 
 std::unique_ptr<HTTPRequest> RequestFactory::operator()(std::string message) {
-	std::unique_ptr<HTTPRequest> ptr;
-
 	std::stringstream stream(message);
 
-	std::string word;
+	std::string method;
 	std::string resource_name;
-	stream >> word;
+	stream >> method;
 	stream >> resource_name;
 
-	if (word.compare("POST") == 0) {
-		size_t begin = message.find("\n\n");
-		size_t end = message.npos;
-		std::string resource_body = message.substr(begin + 2, end);
+	return build(message, method, resource_name);
+}
 
+std::unique_ptr<HTTPRequest> RequestFactory::build(std::string message,
+																									 std::string method,
+																									 std::string resource_name) {
+	std::unique_ptr<HTTPRequest> ptr;
+
+	if (method.compare("POST") == 0) {
+		size_t begin = message.find("\n\n");
+		std::string resource_body = message.substr(begin + 2, message.npos);
 		ptr.reset(new PostRequest(resource_name, resource_body));
-	} else if (word.compare("GET") == 0) {
+	} else if (method.compare("GET") == 0) {
 		ptr.reset(new GetRequest(resource_name));
 	} else {
-		ptr.reset(new BadRequest(resource_name));
+		ptr.reset(new BadRequest(resource_name, method));
 	}
-
-	std::cout << word + " " + resource_name + " HTTP/1.1" << std::endl;
 
 	return ptr;
 }

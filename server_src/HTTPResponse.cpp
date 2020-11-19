@@ -6,32 +6,26 @@ HTTPResponse::~HTTPResponse() { }
 
 OKResponse::OKResponse(std::string body) : body(body) { }
 
-OKResponse::~OKResponse() { }
-
-std::string OKResponse::getResponse() { 
-	return this->body;
+std::string OKResponse::getResponse() {
+	std::string response("HTTP/1.1 200 OK\nContent-Type: text/html\n\n");
+	response += this->body;
+	return response;
 }
-
-ForbiddenResponse::ForbiddenResponse() { }
-
-ForbiddenResponse::~ForbiddenResponse() { }
 
 std::string ForbiddenResponse::getResponse() {
 	return std::string("​HTTP/1.1 403 FORBIDDEN\n\n");
 }
 
-NotFoundResponse::NotFoundResponse() { }
-
-NotFoundResponse::~NotFoundResponse() { }
-
 std::string NotFoundResponse::getResponse() {
 	return std::string("HTTP/1.1 404 NOT FOUND\n\n");
 }
 
-NotAllowedResponse::NotAllowedResponse() { }
-
-NotAllowedResponse::~NotAllowedResponse() { }
+NotAllowedResponse::NotAllowedResponse(std::string method_called) 
+	: method_called(method_called) { }
 
 std::string NotAllowedResponse::getResponse() {
-	return std::string("HTTP/1.1 405 METHOD NOT ALLOWED\n\n");
+	std::string response("HTTP/1.1 405 METHOD NOT ALLOWED\n\n");
+	response += this->method_called + " es un comando desconocido";
+
+	return response;
 }
