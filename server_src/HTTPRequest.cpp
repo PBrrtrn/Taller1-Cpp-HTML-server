@@ -2,7 +2,7 @@
 
 #include "HTTPRequest.h"
 
-HTTPRequest::HTTPRequest(std::string& resource_name) 
+HTTPRequest::HTTPRequest(const std::string& resource_name) 
 	: resource_name(resource_name) { }
 
 HTTPRequest::~HTTPRequest() { }
@@ -23,8 +23,8 @@ std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
 	return ptr;
 }
 
-PostRequest::PostRequest(std::string& resource_name,
-												 std::string& resource_body)
+PostRequest::PostRequest(const std::string& resource_name,
+												 const std::string& resource_body)
 	: HTTPRequest(resource_name), resource_body(resource_body) { }
 
 std::unique_ptr<HTTPResponse> PostRequest::execute(ResourceRepository& repo) {
@@ -40,7 +40,8 @@ std::unique_ptr<HTTPResponse> PostRequest::execute(ResourceRepository& repo) {
 	return ptr;
 }
 
-BadRequest::BadRequest(std::string& resource_name, std::string& invalid_method)
+BadRequest::BadRequest(const std::string& resource_name, 
+											 const std::string& invalid_method)
   : HTTPRequest(resource_name), invalid_method(invalid_method) { }
 
 std::unique_ptr<HTTPResponse> BadRequest::execute(ResourceRepository& repo) {

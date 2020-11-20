@@ -4,7 +4,7 @@ HTTPResponse::HTTPResponse() { }
 
 HTTPResponse::~HTTPResponse() { }
 
-OKResponse::OKResponse(std::string& body) : body(body) { }
+OKResponse::OKResponse(const std::string& body) : body(body) { }
 
 std::string OKResponse::getResponse() {
 	std::string response("HTTP/1.1 200 OK\nContent-Type: text/html\n\n");
@@ -20,7 +20,7 @@ std::string NotFoundResponse::getResponse() {
 	return std::string("HTTP/1.1 404 NOT FOUND\n\n");
 }
 
-NotAllowedResponse::NotAllowedResponse(std::string& method_called) 
+NotAllowedResponse::NotAllowedResponse(const std::string& method_called) 
 	: method_called(method_called) { }
 
 std::string NotAllowedResponse::getResponse() {
