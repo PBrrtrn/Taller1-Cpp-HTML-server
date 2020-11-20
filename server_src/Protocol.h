@@ -17,7 +17,7 @@ private:
 	ResourceRepository& resources;
 	RequestFactory request_factory;
 public:
-	HTTPProtocol(ResourceRepository& resources);
+	explicit HTTPProtocol(ResourceRepository& resources);
 	void handleSocket(Socket& socket) override;
 };
 

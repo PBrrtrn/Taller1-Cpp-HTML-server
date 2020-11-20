@@ -1,3 +1,5 @@
+#include <string>
+
 #include "ResourceRepository.h"
 
 ResourceRepository::ResourceRepository(const char* root_contents) {

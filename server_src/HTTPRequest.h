@@ -1,6 +1,7 @@
 #ifndef __HTTP_REQUEST_H__
 #define __HTTP_REQUEST_H__
 
+#include <string>
 #include <memory>
 
 #include "ResourceRepository.h"
@@ -10,14 +11,14 @@ class HTTPRequest {
 protected:
 	std::string resource_name;
 public:
-	HTTPRequest(std::string resource_name);
+	explicit HTTPRequest(std::string resource_name);
 	virtual ~HTTPRequest();
 	virtual std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) = 0;
 };
 
 class GetRequest : public HTTPRequest {
 public:
-	GetRequest(std::string resource_name);
+	explicit GetRequest(std::string resource_name);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 

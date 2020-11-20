@@ -38,8 +38,9 @@ int Socket::bind(const char *service) {
 		this->fd = ::socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
 		if (this->fd == -1) continue;
 
-		if (::bind(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) break;
-		else {
+		if (::bind(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) { 
+			break;
+		} else {
 			freeaddrinfo(addresses);
 			std::cout << "Error in bind" << std::endl;
 			return 1;
@@ -49,7 +50,7 @@ int Socket::bind(const char *service) {
 	freeaddrinfo(addresses);
 
 	if (addr == NULL) {
-		std::cout << "SOCKET ERROR: Could not find suitable address to bind to" << std::endl;
+		std::cout << "SOCKET ERROR: No suitable address to bind to" << std::endl;
 		return 1;
 		// raise error
 	}
@@ -64,16 +65,16 @@ int Socket::connect(const char *host, const char *service) {
 		this->fd = ::socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
 		if (this->fd == -1) continue;
 
-		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) 
+		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) {
 			break;
-		else {
+		}	else {
 			throw "SOCKET ERROR: Error in connect";
 			freeaddrinfo(addresses);
 		}
 	}
 	freeaddrinfo(addresses);
 
-	if (addr == NULL) throw "SOCKET ERROR: Could not find suitable address to connect to";
+	if (addr == NULL) throw "SOCKET ERROR: No suitable address to connect to";
 	return 0;
 }
 
@@ -146,5 +147,6 @@ struct addrinfo* Socket::initializeAddrinfo(const char *host,
 
   if (getaddrinfo(host, service, &hints, &addresses) != 0)
   	throw "Error in getaddrinfo";
-  else return addresses;
+  else
+  	return addresses;
 }

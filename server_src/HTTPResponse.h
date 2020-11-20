@@ -14,7 +14,7 @@ struct OKResponse : public HTTPResponse {
 private:
 	std::string body;
 public:
-	OKResponse(std::string body);
+	explicit OKResponse(std::string body);
 	std::string getResponse();
 };
 
@@ -30,7 +30,7 @@ struct NotAllowedResponse : public HTTPResponse {
 private:
 	std::string method_called;
 public:
-	NotAllowedResponse(std::string method_called);
+	explicit NotAllowedResponse(std::string method_called);
 	std::string getResponse();
 };
 
