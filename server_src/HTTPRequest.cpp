@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "HTTPRequest.h"
 
@@ -16,7 +17,10 @@ std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
 	std::unique_ptr<HTTPResponse> ptr;
 	if (repo.hasResource(this->resource_name)) {
 		std::string resource = repo.getResource(this->resource_name);
-		ptr.reset(new OKResponse(resource));
+		std::stringstream text;
+		text << "Content-Type: text/html\n\n";
+		text << resource;
+		ptr.reset(new OKResponse(text.str()));
 	} else {
 		ptr.reset(new NotFoundResponse);
 	}
@@ -35,7 +39,10 @@ std::unique_ptr<HTTPResponse> PostRequest::execute(ResourceRepository& repo) {
 		ptr.reset(new ForbiddenResponse);
 	} else {
 		repo.addResource(this->resource_name, this->resource_body);
-		ptr.reset(new OKResponse(this->resource_body));
+		std::stringstream text;
+		text << "\n";
+		text << this->resource_body;
+		ptr.reset(new OKResponse(text.str()));
 	}
 	return ptr;
 }

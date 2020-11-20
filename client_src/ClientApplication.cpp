@@ -31,5 +31,5 @@ void ClientApplication::run() {
 	while (this->socket.receive(&response, 1) > 0)
 		output_stream << response;
 
-	std::cout << output_stream.str() << std::endl;
+	std::cout << output_stream.str();
 }

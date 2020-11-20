@@ -18,8 +18,8 @@ HTTPProtocol::HTTPProtocol(ResourceRepository& resources)
 
 void HTTPProtocol::handleSocket(Socket& socket) {
 	std::stringstream stream;
-	char buffer[BUFFER_SIZE] = {0};
-	while (socket.receive(buffer, BUFFER_SIZE - 2) != 0) stream << buffer;
+	char buffer = '\0';
+	while (socket.receive(&buffer, 1) != 0) stream << buffer;
 	std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
 
 	std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
