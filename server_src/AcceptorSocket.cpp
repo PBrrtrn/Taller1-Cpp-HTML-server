@@ -33,14 +33,12 @@ void AcceptorSocket::run() {
 		active_socket->start();
 		this->clients.push_back(active_socket);
 
-		// TODO: Implementar cleanup (y que no crashee)
-		// cleanup();
+		cleanup();
 	}
 }
 
-/*
 void AcceptorSocket::cleanup() {
-	auto it = this->clients.begin();
+	auto it = (this->clients).begin();
 	while (it != clients.end()) {
 		if ((*it)->finishedTalking()) {
 			delete *it;
@@ -50,4 +48,3 @@ void AcceptorSocket::cleanup() {
 		}
 	}
 }
-*/
