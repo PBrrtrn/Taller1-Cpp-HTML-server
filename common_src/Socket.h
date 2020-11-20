@@ -25,6 +25,7 @@ public:
 	int send(const char *data, size_t data_size);
 	int receive(char *buffer, size_t n_bytes);
 	void shutdown();
+	void shutdown_write();
 	void close();
 };
 

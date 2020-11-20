@@ -26,13 +26,13 @@ void AcceptorSocket::run() {
 		try {
 			peer = this->socket.accept();
 		} catch (int) {
-			std::cout << "closing acceptor socket" << std::endl;
 			break;
 		}
 		ActiveSocket *active_socket = new ActiveSocket(std::move(peer), protocol);
 		active_socket->start();
 		this->clients.push_back(active_socket);
 
+		// TODO: Implementar cleanup (y que no crashee)
 		// cleanup();
 	}
 }
