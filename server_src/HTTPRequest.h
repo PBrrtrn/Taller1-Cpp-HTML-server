@@ -11,14 +11,14 @@ class HTTPRequest {
 protected:
 	std::string resource_name;
 public:
-	explicit HTTPRequest(std::string resource_name);
+	explicit HTTPRequest(std::string& resource_name);
 	virtual ~HTTPRequest();
 	virtual std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) = 0;
 };
 
 class GetRequest : public HTTPRequest {
 public:
-	explicit GetRequest(std::string resource_name);
+	explicit GetRequest(std::string& resource_name);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
@@ -26,8 +26,8 @@ class PostRequest : public HTTPRequest {
 private:
 	std::string resource_body;
 public:
-	PostRequest(std::string resource_name,
-							std::string resource_body);
+	PostRequest(std::string& resource_name,
+							std::string& resource_body);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
@@ -35,7 +35,7 @@ class BadRequest : public HTTPRequest {
 private:
 	std::string invalid_method;
 public:
-	BadRequest(std::string resource_name, std::string invalid_method);
+	BadRequest(std::string& resource_name, std::string& invalid_method);
 	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 

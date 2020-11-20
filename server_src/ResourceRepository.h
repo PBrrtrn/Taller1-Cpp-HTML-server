@@ -12,9 +12,9 @@ private:
 public:
 	explicit ResourceRepository(const char *root_contents);
 	~ResourceRepository();
-	int addResource(std::string resource_name, std::string resource);
-	const bool hasResource(std::string);
-	const std::string getResource(std::string resource_name);
+	int addResource(std::string resource_name, std::string& resource);
+	const bool hasResource(std::string&);
+	const std::string getResource(std::string& resource_name);
 };
 
 #endif

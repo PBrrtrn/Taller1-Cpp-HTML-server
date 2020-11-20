@@ -42,9 +42,7 @@ int Socket::bind(const char *service) {
 			break;
 		} else {
 			freeaddrinfo(addresses);
-			std::cout << "Error in bind" << std::endl;
-			return 1;
-			// raise error
+			throw "SOCKET ERROR: Error in bind";
 		}
 	}
 	freeaddrinfo(addresses);
@@ -68,8 +66,8 @@ int Socket::connect(const char *host, const char *service) {
 		if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) {
 			break;
 		}	else {
-			throw "SOCKET ERROR: Error in connect";
 			freeaddrinfo(addresses);
+			throw "SOCKET ERROR: Error in connect";
 		}
 	}
 	freeaddrinfo(addresses);
@@ -109,10 +107,9 @@ int Socket::send(const char *data, size_t data_size) {
 
 int Socket::receive(char *buffer, size_t n_bytes) {
   size_t total_bytes_received = 0;
-  int bytes_received = 0;
   while (total_bytes_received < n_bytes) {
-    bytes_received = ::recv(this->fd, &buffer[total_bytes_received],
-                   					n_bytes - total_bytes_received, 0);
+    int bytes_received = ::recv(this->fd, &buffer[total_bytes_received],
+                   							n_bytes - total_bytes_received, 0);
 
     switch (bytes_received) {
     	case -1 : break; // std::cout << "receive error" << std::endl;
