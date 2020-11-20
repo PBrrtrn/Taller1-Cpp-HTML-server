@@ -38,6 +38,7 @@ void AcceptorSocket::run() {
 	}
 }
 
+/*
 void AcceptorSocket::cleanup() {
 	auto it = this->clients.begin();
 	while (it != clients.end()) {
@@ -49,3 +50,4 @@ void AcceptorSocket::cleanup() {
 		}
 	}
 }
+*/

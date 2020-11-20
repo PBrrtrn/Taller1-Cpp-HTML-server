@@ -15,7 +15,7 @@ private:
 	Socket socket;
 	std::atomic<bool>& server_running;
 	std::list<ActiveSocket*> clients;
-	void cleanup();
+	// void cleanup();
 public:
 	AcceptorSocket(const char* port, Protocol& protocol,
 								 std::atomic<bool>& server_running);
