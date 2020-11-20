@@ -46,6 +46,6 @@ std::unique_ptr<HTTPResponse> BadRequest::execute(ResourceRepository& repo) {
 	std::string output = this->invalid_method + " " 
 										 + this->resource_name + " HTTP/1.1";
 	std::cout << output << std::endl;
-	std::unique_ptr<HTTPResponse> ptr(new NotAllowedResponse);
+	std::unique_ptr<HTTPResponse> ptr(new NotAllowedResponse(invalid_method));
 	return ptr;
 }

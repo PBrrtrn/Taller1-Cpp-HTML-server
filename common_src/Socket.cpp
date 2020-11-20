@@ -10,8 +10,6 @@
 
 #define BUFFER_SIZE 64
 
-#define BUFFER_SIZE 64
-
 Socket::Socket() {
 	this->fd = -1;
 }
@@ -125,7 +123,7 @@ int Socket::receive(char *buffer, size_t n_bytes) {
 }
 
 void Socket::shutdown() {
-	if (this->fd != -1) ::shutdown(this->fd, SHUT_RDWR);
+	::shutdown(this->fd, SHUT_RDWR);
 }
 
 void Socket::shutdown_write() {
@@ -133,7 +131,7 @@ void Socket::shutdown_write() {
 }
 
 void Socket::close() {
-	::close(this->fd);
+	if (this->fd != -1) ::close(this->fd);
 }
 
 struct addrinfo* Socket::initializeAddrinfo(const char *host,
