@@ -7,23 +7,23 @@
 
 class Socket {
 private:
-	int fd;
+  int fd;
 public:
-	Socket();
-	~Socket();
-	Socket(const Socket&) = delete;
-	Socket& operator=(const Socket&) = delete;
-	Socket(Socket&& other);
-	Socket& operator=(Socket&& other);
-	int bind(const char *service);
-	int connect(const char *host, const char *service);
-	int listen(int queue_size);
-	Socket accept();
-	int send(const char *data, size_t data_size);
-	int receive(char *buffer, size_t n_bytes);
-	void shutdown();
-	void shutdown_write();
-	void close();
+  Socket();
+  ~Socket();
+  Socket(const Socket&) = delete;
+  Socket& operator=(const Socket&) = delete;
+  Socket(Socket&& other);
+  Socket& operator=(Socket&& other);
+  int bind(const char *service);
+  int connect(const char *host, const char *service);
+  int listen(int queue_size);
+  Socket accept();
+  int send(const char *data, size_t data_size);
+  int receive(char *buffer, size_t n_bytes);
+  void shutdown();
+  void shutdown_write();
+  void close();
 };
 
 #endif

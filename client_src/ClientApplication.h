@@ -5,11 +5,11 @@
 
 class ClientApplication {
 private:
-	Socket socket;
+  Socket socket;
 public:
-	ClientApplication(const char* host, const char* port);
-	~ClientApplication();
-	void run();
+  ClientApplication(const char* host, const char* port);
+  ~ClientApplication();
+  void run();
 };
 
 #endif

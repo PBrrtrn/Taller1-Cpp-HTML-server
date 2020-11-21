@@ -6,7 +6,7 @@
 # CONFIGURACION
 ################
 
-# ExtensiÃ³n de los archivos a compilar (c para C, cpp o cc o cxx para C++).
+# Extension de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
 
 # Archivos con el cÃ³digo fuente que componen el ejecutable. Si no se especifica,

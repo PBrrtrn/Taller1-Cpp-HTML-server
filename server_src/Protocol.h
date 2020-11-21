@@ -7,18 +7,18 @@
 
 class Protocol {
 public:
-	Protocol();
-	virtual ~Protocol();
-	virtual void handleSocket(Socket& socket) = 0;
+  Protocol();
+  virtual ~Protocol();
+  virtual void handleSocket(Socket& socket) = 0;
 };
 
 class HTTPProtocol : public Protocol {
 private:
-	ResourceRepository& resources;
-	RequestFactory request_factory;
+  ResourceRepository& resources;
+  RequestFactory request_factory;
 public:
-	explicit HTTPProtocol(ResourceRepository& resources);
-	void handleSocket(Socket& socket) override;
+  explicit HTTPProtocol(ResourceRepository& resources);
+  void handleSocket(Socket& socket) override;
 };
 
 #endif

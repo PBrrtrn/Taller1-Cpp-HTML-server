@@ -6,9 +6,9 @@
 #include <netdb.h>
 
 struct AddrinfoWrapper {
-	struct addrinfo *addresses;
-	AddrinfoWrapper(const char *host, const char* service, int flags);
-	~AddrinfoWrapper();
+  struct addrinfo *addresses;
+  AddrinfoWrapper(const char *host, const char* service, int flags);
+  ~AddrinfoWrapper();
 };
 
 #endif

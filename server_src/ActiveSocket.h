@@ -7,14 +7,14 @@
 
 class ActiveSocket : public Thread {
 private:
-	Protocol& protocol;
-	// bool finished_talking = false;
-	Socket socket;
+  Protocol& protocol;
+  // bool finished_talking = false;
+  Socket socket;
 public:
-	ActiveSocket(Socket socket, Protocol& protocol);
-	~ActiveSocket();
-	void run() override;
-	// bool finishedTalking();
+  ActiveSocket(Socket socket, Protocol& protocol);
+  ~ActiveSocket();
+  void run() override;
+  // bool finishedTalking();
 };
 
 #endif

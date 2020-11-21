@@ -9,35 +9,35 @@
 
 class HTTPRequest {
 protected:
-	std::string resource_name;
+  std::string resource_name;
 public:
-	explicit HTTPRequest(const std::string& resource_name);
-	virtual ~HTTPRequest();
-	virtual std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) = 0;
+  explicit HTTPRequest(const std::string& resource_name);
+  virtual ~HTTPRequest();
+  virtual std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) = 0;
 };
 
 class GetRequest : public HTTPRequest {
 public:
-	explicit GetRequest(std::string& resource_name);
-	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
+  explicit GetRequest(std::string& resource_name);
+  std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
 class PostRequest : public HTTPRequest {
 private:
-	std::string resource_body;
+  std::string resource_body;
 public:
-	PostRequest(const std::string& resource_name,
-							const std::string& resource_body);
-	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
+  PostRequest(const std::string& resource_name,
+              const std::string& resource_body);
+  std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
 class BadRequest : public HTTPRequest {
 private:
-	std::string invalid_method;
+  std::string invalid_method;
 public:
-	BadRequest(const std::string& resource_name, 
-						 const std::string& invalid_method);
-	std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
+  BadRequest(const std::string& resource_name, 
+             const std::string& invalid_method);
+  std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 
 #endif

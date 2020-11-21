@@ -11,16 +11,16 @@
 
 class AcceptorSocket : public Thread {
 private:
-	Protocol& protocol;
-	Socket socket;
-	std::atomic<bool>& server_running;
-	std::list<ActiveSocket*> clients;
-	void cleanup();
+  Protocol& protocol;
+  Socket socket;
+  std::atomic<bool>& server_running;
+  std::list<ActiveSocket*> clients;
+  void cleanup();
 public:
-	AcceptorSocket(const char* port, Protocol& protocol,
-								 std::atomic<bool>& server_running);
-	~AcceptorSocket() override;
-	void run() override;
+  AcceptorSocket(const char* port, Protocol& protocol,
+                 std::atomic<bool>& server_running);
+  ~AcceptorSocket() override;
+  void run() override;
 };
 
 #endif

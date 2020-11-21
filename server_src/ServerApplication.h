@@ -9,14 +9,14 @@
 
 class ServerApplication {
 private:
-	std::atomic<bool> running;
-	ResourceRepository resources;
-	HTTPProtocol protocol;
-	AcceptorSocket acceptor;
+  std::atomic<bool> running;
+  ResourceRepository resources;
+  HTTPProtocol protocol;
+  AcceptorSocket acceptor;
 public:
-	ServerApplication(const char *service, const char *root_contents);
-	~ServerApplication();
-	void rackup();
+  ServerApplication(const char *service, const char *root_contents);
+  ~ServerApplication();
+  void rackup();
 };
 
 #endif
