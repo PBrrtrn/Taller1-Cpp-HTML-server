@@ -9,7 +9,7 @@ class Protocol {
 public:
   Protocol();
   virtual ~Protocol();
-  virtual void handleSocket(Socket& socket) = 0;
+  virtual void handleSocket(const Socket& socket) = 0;
 };
 
 class HTTPProtocol : public Protocol {
@@ -18,7 +18,7 @@ private:
   RequestFactory request_factory;
 public:
   explicit HTTPProtocol(ResourceRepository& resources);
-  void handleSocket(Socket& socket) override;
+  void handleSocket(const Socket& socket) override;
 };
 
 #endif

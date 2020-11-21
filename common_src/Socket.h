@@ -17,10 +17,10 @@ public:
   Socket& operator=(Socket&& other);
   int bind(const char *service);
   int connect(const char *host, const char *service);
-  int listen(int queue_size);
-  Socket accept();
-  int send(const char *data, size_t data_size);
-  int receive(char *buffer, size_t n_bytes);
+  int listen(int queue_size) const;
+  Socket accept() const;
+  int send(const char *data, size_t data_size) const;
+  int receive(char *buffer, size_t n_bytes) const;
   void shutdown();
   void shutdown_write();
   void close();

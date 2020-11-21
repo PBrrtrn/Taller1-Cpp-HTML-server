@@ -69,13 +69,13 @@ int Socket::connect(const char *host, const char *service) {
   return 0;
 }
 
-int Socket::listen(int queue_size) {
+int Socket::listen(int queue_size) const {
   if (::listen(this->fd, queue_size) != 0)
     throw std::runtime_error("SOCKET ERROR: Failed to start listening");
   return 0;
 }
 
-Socket Socket::accept() {
+Socket Socket::accept() const {
   Socket peer;
   peer.fd = ::accept(this->fd, NULL, NULL);
   if (peer.fd == -1) 
@@ -83,7 +83,7 @@ Socket Socket::accept() {
   return peer;
 }
 
-int Socket::send(const char *data, size_t data_size) {
+int Socket::send(const char *data, size_t data_size) const {
   size_t total_bytes_sent = 0;
   while (total_bytes_sent < data_size) {
     int bytes_sent = ::send(this->fd,
@@ -100,7 +100,7 @@ int Socket::send(const char *data, size_t data_size) {
   return total_bytes_sent;
 }
 
-int Socket::receive(char *buffer, size_t n_bytes) {
+int Socket::receive(char *buffer, size_t n_bytes) const {
   size_t total_bytes_received = 0;
   while (total_bytes_received < n_bytes) {
     int bytes_received = ::recv(this->fd, &buffer[total_bytes_received],

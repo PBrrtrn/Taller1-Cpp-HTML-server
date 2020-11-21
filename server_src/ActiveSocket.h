@@ -14,7 +14,7 @@ public:
   ActiveSocket(Socket socket, Protocol& protocol);
   ~ActiveSocket();
   void run() override;
-  bool finishedTalking();
+  bool finishedTalking() const;
 };
 
 #endif

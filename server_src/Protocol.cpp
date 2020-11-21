@@ -16,7 +16,7 @@ Protocol::~Protocol() {}
 HTTPProtocol::HTTPProtocol(ResourceRepository& resources) 
   : resources(resources), request_factory() { }
 
-void HTTPProtocol::handleSocket(Socket& socket) {
+void HTTPProtocol::handleSocket(const Socket& socket) {
   std::stringstream stream;
   char buffer = '\0';
   while (socket.receive(&buffer, 1) != 0) stream << buffer;

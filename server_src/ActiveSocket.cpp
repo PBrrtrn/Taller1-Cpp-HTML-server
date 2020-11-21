@@ -22,6 +22,6 @@ void ActiveSocket::run() {
   this->finished_talking = true;
 }
 
-bool ActiveSocket::finishedTalking() {
+bool ActiveSocket::finishedTalking() const {
   return this->finished_talking;
 }
