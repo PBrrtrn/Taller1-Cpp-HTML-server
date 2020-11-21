@@ -8,7 +8,7 @@ HTTPRequest::HTTPRequest(const std::string& resource_name)
 
 HTTPRequest::~HTTPRequest() { }
 
-GetRequest::GetRequest(std::string& resource_name) 
+GetRequest::GetRequest(const std::string& resource_name) 
   : HTTPRequest(resource_name) { }
 
 std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {

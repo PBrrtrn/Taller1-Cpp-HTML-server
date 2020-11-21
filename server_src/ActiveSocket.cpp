@@ -12,13 +12,13 @@ ActiveSocket::ActiveSocket(Socket socket, Protocol& protocol)
 }
 
 ActiveSocket::~ActiveSocket() {
-  this->socket.shutdown();
   this->socket.close();
   this->join();
 }
 
 void ActiveSocket::run() {
   this->protocol.handleSocket(this->socket);
+  socket.shutdown();
   this->finished_talking = true;
 }
 

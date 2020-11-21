@@ -16,7 +16,7 @@ public:
   ResourceRepository& operator=(const ResourceRepository&) = delete;
   int addResource(const std::string& resource_name,
                   const std::string& resource);
-  const bool hasResource(const std::string&);
+  const bool hasResource(const std::string& resource_name);
   const std::string getResource(const std::string& resource_name);
 };
 

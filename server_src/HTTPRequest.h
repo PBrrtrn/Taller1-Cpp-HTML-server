@@ -18,7 +18,7 @@ public:
 
 class GetRequest : public HTTPRequest {
 public:
-  explicit GetRequest(std::string& resource_name);
+  explicit GetRequest(const std::string& resource_name);
   std::unique_ptr<HTTPResponse> execute(ResourceRepository& repo) override;
 };
 

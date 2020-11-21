@@ -8,13 +8,13 @@
 
 class RequestFactory {
 private:
-  std::unique_ptr<HTTPRequest> build(std::string message,
-                                     std::string method,
-                                     std::string resource_name);
+  std::unique_ptr<HTTPRequest> build(const std::string& message,
+                                     const std::string& method,
+                                     const std::string& resource_name);
 public:
   RequestFactory();
   ~RequestFactory();
-  std::unique_ptr<HTTPRequest> operator()(std::string message);
+  std::unique_ptr<HTTPRequest> operator()(std::string& message);
 };
 
 #endif

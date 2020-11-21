@@ -7,7 +7,7 @@ RequestFactory::RequestFactory() { }
 
 RequestFactory::~RequestFactory() { }
 
-std::unique_ptr<HTTPRequest> RequestFactory::operator()(std::string message) {
+std::unique_ptr<HTTPRequest> RequestFactory::operator()(std::string& message) {
   std::stringstream stream(message);
 
   std::string method;
@@ -18,9 +18,10 @@ std::unique_ptr<HTTPRequest> RequestFactory::operator()(std::string message) {
   return build(message, method, resource_name);
 }
 
-std::unique_ptr<HTTPRequest> RequestFactory::build(std::string message,
-                                                   std::string method,
-                                                   std::string resource_name) {
+std::unique_ptr<HTTPRequest> RequestFactory::build
+                             (const std::string& message,
+                              const std::string& method,
+                              const std::string& resource_name) {
   std::unique_ptr<HTTPRequest> ptr;
 
   if (method.compare("POST") == 0) {

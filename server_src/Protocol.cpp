@@ -20,11 +20,11 @@ void HTTPProtocol::handleSocket(Socket& socket) {
   std::stringstream stream;
   char buffer = '\0';
   while (socket.receive(&buffer, 1) != 0) stream << buffer;
-  std::unique_ptr<HTTPRequest> request = request_factory(stream.str());
+  std::string request_text = stream.str();
+  std::unique_ptr<HTTPRequest> request = request_factory(request_text);
 
   std::unique_ptr<HTTPResponse> response = request->execute(this->resources);
   std::string response_string = response->getResponse();
 
   socket.send(response_string.c_str(), response_string.length());
-  socket.shutdown();
 }
