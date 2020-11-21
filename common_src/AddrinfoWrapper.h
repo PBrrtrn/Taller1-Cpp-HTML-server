@@ -1,5 +1,5 @@
-#ifndef __ADDRINFO_WRAPPER_H
-#define __ADDRINFO_WRAPPER_H
+#ifndef __ADDRINFO_WRAPPER_H__
+#define __ADDRINFO_WRAPPER_H__
 
 #include <sys/socket.h>
 #include <sys/types.h>
