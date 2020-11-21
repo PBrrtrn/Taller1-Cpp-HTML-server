@@ -12,7 +12,7 @@ ActiveSocket::ActiveSocket(Socket socket, Protocol& protocol)
 }
 
 ActiveSocket::~ActiveSocket() {
-  this->socket.shutdown_write();
+  this->socket.shutdown();
   this->socket.close();
   this->join();
 }

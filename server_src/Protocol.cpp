@@ -26,5 +26,5 @@ void HTTPProtocol::handleSocket(Socket& socket) {
   std::string response_string = response->getResponse();
 
   socket.send(response_string.c_str(), response_string.length());
-  socket.shutdown_write(); // Esto lo debería hacer el socket al ser limpiado...
+  socket.shutdown();
 }

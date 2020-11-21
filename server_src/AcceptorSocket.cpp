@@ -33,7 +33,6 @@ void AcceptorSocket::run() {
     this->clients.push_back(active_socket);
     active_socket->start();
 
-    // TODO: Implementar cleanup (y que no crashee)
     cleanup();
   }
 }
