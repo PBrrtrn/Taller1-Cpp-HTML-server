@@ -12,6 +12,8 @@ private:
 public:
   explicit ResourceRepository(const char *root_contents_path);
   ~ResourceRepository();
+  ResourceRepository(const ResourceRepository&) = delete;            // Saco el constructor por copia
+  ResourceRepository& operator=(const ResourceRepository&) = delete; // Saco la asignacion por copia
   int addResource(const std::string& resource_name,
                   const std::string& resource);
   const bool hasResource(const std::string&);
