@@ -19,11 +19,9 @@ ActiveSocket::~ActiveSocket() {
 
 void ActiveSocket::run() {
   this->protocol.handleSocket(this->socket);
-  // this->finished_talking = true;
+  this->finished_talking = true;
 }
 
-/*
 bool ActiveSocket::finishedTalking() {
   return this->finished_talking;
 }
-*/

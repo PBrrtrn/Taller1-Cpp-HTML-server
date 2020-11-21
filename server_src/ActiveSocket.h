@@ -8,13 +8,13 @@
 class ActiveSocket : public Thread {
 private:
   Protocol& protocol;
-  // bool finished_talking = false;
+  bool finished_talking = false;
   Socket socket;
 public:
   ActiveSocket(Socket socket, Protocol& protocol);
   ~ActiveSocket();
   void run() override;
-  // bool finishedTalking();
+  bool finishedTalking();
 };
 
 #endif
