@@ -9,11 +9,7 @@
 #define CHUNK_SIZE 64
 
 ClientApplication::ClientApplication(const char* host, const char* port) {
-	try { 
-		this->socket.connect(host, port);
-	}	catch (const char* error) { 
-		std::cout << error << std::endl;
-	}
+	this->socket.connect(host, port);
 }
 
 ClientApplication::~ClientApplication() { }

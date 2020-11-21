@@ -26,12 +26,12 @@ void AcceptorSocket::run() {
 		Socket peer;
 		try {
 			peer = this->socket.accept();
-		} catch (int) {
+		} catch (std::runtime_error& e) {
 			break;
 		}
 		ActiveSocket *active_socket = new ActiveSocket(std::move(peer), protocol);
-		active_socket->start();
 		this->clients.push_back(active_socket);
+		active_socket->start();
 
 		// TODO: Implementar cleanup (y que no crashee)
 		// cleanup();
