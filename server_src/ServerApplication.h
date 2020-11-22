@@ -1,15 +1,12 @@
 #ifndef __SERVER_APPLICATION_H__
 #define __SERVER_APPLICATION_H__
 
-#include <atomic>
-
 #include "AcceptorSocket.h"
 #include "ResourceRepository.h"
 #include "Protocol.h"
 
 class ServerApplication {
 private:
-  std::atomic<bool> running;
   ResourceRepository resources;
   HTTPProtocol protocol;
   AcceptorSocket acceptor;

@@ -6,9 +6,8 @@
 
 #define QUEUE_SIZE 5
 
-AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol,
-                               std::atomic<bool>& server_running)
-  : protocol(protocol), server_running(server_running) {
+AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol)
+  : protocol(protocol) {
   this->socket.bind(port);
   this->socket.listen(QUEUE_SIZE);
 }
@@ -22,7 +21,7 @@ AcceptorSocket::~AcceptorSocket() {
 }
 
 void AcceptorSocket::run() {
-  while (this->server_running) {
+  while (true) {
     Socket peer;
     try {
       peer = this->socket.accept();
