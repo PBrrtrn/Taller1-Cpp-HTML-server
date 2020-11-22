@@ -8,8 +8,13 @@
 
 AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol)
   : protocol(protocol) {
-  this->socket.bind(port);
-  this->socket.listen(QUEUE_SIZE);
+  try {
+    this->socket.bind(port);
+    this->socket.listen(QUEUE_SIZE);
+  } catch (std::runtime_error& e) {
+    std::cout << "ERROR: Could not bind to port " << port << std::endl;
+    this->socket.close();
+  }
 }
 
 AcceptorSocket::~AcceptorSocket() {

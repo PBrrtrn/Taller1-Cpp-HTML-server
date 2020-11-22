@@ -8,6 +8,9 @@
 class Socket {
 private:
   int fd;
+  struct addrinfo* initializeAddrinfo(const char *host,
+                                      const char* service,
+                                      int flags);
 public:
   Socket();
   ~Socket();

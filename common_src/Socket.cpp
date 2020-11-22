@@ -7,7 +7,6 @@
 #include <sstream>
 
 #include "Socket.h"
-#include "AddrinfoWrapper.h"
 
 #define BUFFER_SIZE 64
 
@@ -32,18 +31,21 @@ Socket& Socket::operator=(Socket&& other) {
 }
 
 int Socket::bind(const char *service) {
-  AddrinfoWrapper addrinfo_wrapper(NULL, service, AI_PASSIVE);
+  struct addrinfo *addresses = initializeAddrinfo(NULL, service, AI_PASSIVE);
 
   struct addrinfo *addr;
-  for (addr = addrinfo_wrapper.addresses; addr != NULL; addr = addr->ai_next) {
+  for (addr = addresses; addr != NULL; addr = addr->ai_next) {
     this->fd = ::socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
     if (this->fd == -1) continue;
 
-    if (::bind(this->fd, addr->ai_addr, addr->ai_addrlen) == 0)
+    if (::bind(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) { 
       break;
-    else
+    } else {
+      freeaddrinfo(addresses);
       throw std::runtime_error("SOCKET ERROR: Error in bind");
+    }
   }
+  freeaddrinfo(addresses);
 
   if (addr == NULL) 
     throw std::runtime_error("Could not find suitable address to bind to");
@@ -51,18 +53,21 @@ int Socket::bind(const char *service) {
 }
 
 int Socket::connect(const char *host, const char *service) {
-  AddrinfoWrapper addrinfo_wrapper(host, service, 0);
+  struct addrinfo *addresses = initializeAddrinfo(host, service, 0);
 
   struct addrinfo *addr;
-  for (addr = addrinfo_wrapper.addresses; addr != NULL; addr = addr->ai_next) {
+  for (addr = addresses; addr != NULL; addr = addr->ai_next) {
     this->fd = ::socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
     if (this->fd == -1) continue;
 
-    if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0)
+    if (::connect(this->fd, addr->ai_addr, addr->ai_addrlen) == 0) {
       break;
-    else
+    } else {
+      freeaddrinfo(addresses);
       throw std::runtime_error("SOCKET ERROR: Error in connect");
+    }
   }
+  freeaddrinfo(addresses);
 
   if (addr == NULL)
     throw std::runtime_error("Could not find suitable address to connect to");
@@ -125,4 +130,20 @@ void Socket::shutdown_write() {
 
 void Socket::close() {
   if (this->fd != -1) ::close(this->fd);
+}
+
+struct addrinfo* Socket::initializeAddrinfo(const char *host,
+                                            const char* service,
+                                            int flags) {
+  struct addrinfo *addresses, hints;
+  memset(&hints, 0, sizeof(struct addrinfo));
+
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = flags;
+
+  if (getaddrinfo(host, service, &hints, &addresses) != 0)
+    throw std::runtime_error("Error in getaddrinfo");
+  else
+    return addresses;
 }
