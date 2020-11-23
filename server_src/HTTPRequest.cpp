@@ -24,17 +24,6 @@ std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
   } catch (std::exception& e) {
     ptr.reset(new NotFoundResponse);
   }
-  /*
-  if (repo.hasResource(this->resource_name)) {
-    std::string resource = repo.getResource(this->resource_name);
-    std::stringstream text;
-    text << "Content-Type: text/html\n\n";
-    text << resource;
-    ptr.reset(new OKResponse(text.str()));
-  } else {
-    ptr.reset(new NotFoundResponse);
-  }
-  */
   return ptr;
 }
 

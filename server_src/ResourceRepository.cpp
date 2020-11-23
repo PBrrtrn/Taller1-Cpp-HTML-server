@@ -16,18 +16,14 @@ void ResourceRepository::addResource(const std::string& resource_name,
   this->resources[resource_name] = resource;
 }
 
-const bool ResourceRepository::hasResource
-           (const std::string& resource_name) {
-  const std::lock_guard<std::mutex> lock(this->mutex);
-  auto it = this->resources.find(resource_name);
-  return (!(it == resources.end()));
-}
-
 const std::string ResourceRepository::getResource
                   (const std::string& resource_name) {
   const std::lock_guard<std::mutex> lock(this->mutex);
-  if (this->hasResource(resource_name))
+
+  auto it = this->resources.find(resource_name);
+  if (it != this->resources.end()) {
     return this->resources[resource_name];
-  else
+  } else {
     throw std::runtime_error("Resource does not exist");
+  }
 }
