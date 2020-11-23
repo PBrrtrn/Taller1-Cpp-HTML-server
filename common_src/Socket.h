@@ -6,11 +6,23 @@
 #include <netdb.h>
 
 class Socket {
+  /* Clase socket; encapsula el comportamiento de un socket en el sistema
+  operativo, ofreciendo una interfaz de operaciones autocontenidas para
+  realizar comunicaciones a través de este.                            */
 private:
   int fd;
   struct addrinfo* initializeAddrinfo(const char *host,
                                       const char* service,
                                       int flags);
+  /* Función auxiliar initializeAddrinfo.
+
+  Parámetros:
+    - const char *host: Nombre del host del cual se quiere obtener direcciones.
+    Puede ser NULL en el caso de estar inicializando direcciones para un
+    servidor.
+    - const char *service: Número del puerto
+    - int flags: Flags del sistema                                           */
+
 public:
   Socket();
   ~Socket();
