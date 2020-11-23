@@ -9,6 +9,14 @@ class ResourceRepository {
   /* Clase ResourceRepository: Ofrece una interfaz thread-safe para acceder y
   modificar un mapa <string, string> de forma concurrente.                 */
 private:
+  const bool hasResource(const std::string& resource_name);
+  /* Verifica que un recurso exista en el mapa de recursos.
+
+  Parámetros:
+    - const std::string& resource_name: Clave bajo la cual buscar el recurso.
+
+  Valor de retorno:
+    Un bool que indica si existe la clave resource_name en el mapa         */
   std::mutex mutex;
   std::unordered_map<std::string, std::string> resources;
 public:
@@ -33,17 +41,10 @@ public:
   Parámetros:
     - const std::string& resource_name: Clave bajo la cual almacenar un recurso
     - const std::string& resource: Recurso a almacenar.                      */
-  const bool hasResource(const std::string& resource_name);
-  /* Verifica que un recurso exista en el mapa de recursos.
 
-  Parámetros:
-    - const std::string& resource_name: Clave bajo la cual buscar el recurso.
-
-  Valor de retorno:
-    Un bool que indica si se pudo encontrar el recurso resource_name en el mapa
-                                                                             */
   const std::string getResource(const std::string& resource_name);
-  /* Trae el recurso pedido.
+  /* Trae el valor del mapa bajo la clave que coincide con resource_name. Si el
+  recurso no existe, levanta una excepción.
 
   Parámetros:
     - const std::string& resource_name: Clave del recurso a traer.

@@ -26,5 +26,8 @@ const bool ResourceRepository::hasResource
 const std::string ResourceRepository::getResource
                   (const std::string& resource_name) {
   const std::lock_guard<std::mutex> lock(this->mutex);
-  return this->resources[resource_name];
+  if (this->hasResource(resource_name))
+    return this->resources[resource_name];
+  else
+    throw std::runtime_error("Resource does not exist");
 }

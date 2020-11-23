@@ -15,6 +15,16 @@ std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
   std::cout << "GET " + this->resource_name + " HTTP/1.1" << std::endl;
 
   std::unique_ptr<HTTPResponse> ptr;
+  try {
+    std::string resource = repo.getResource(this->resource_name);
+    std::stringstream text;
+    text << "Content-Type: text/html\n\n";
+    text << resource;
+    ptr.reset(new OKResponse(text.str()));
+  } catch (std::exception& e) {
+    ptr.reset(new NotFoundResponse);
+  }
+  /*
   if (repo.hasResource(this->resource_name)) {
     std::string resource = repo.getResource(this->resource_name);
     std::stringstream text;
@@ -24,6 +34,7 @@ std::unique_ptr<HTTPResponse> GetRequest::execute(ResourceRepository& repo) {
   } else {
     ptr.reset(new NotFoundResponse);
   }
+  */
   return ptr;
 }
 
