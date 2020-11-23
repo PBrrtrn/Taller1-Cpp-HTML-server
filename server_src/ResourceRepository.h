@@ -42,7 +42,7 @@ public:
     - const std::string& resource_name: Clave bajo la cual almacenar un recurso
     - const std::string& resource: Recurso a almacenar.                      */
 
-  const std::string getResource(const std::string& resource_name);
+  std::string getResource(const std::string& resource_name);
   /* Trae el valor del mapa bajo la clave que coincide con resource_name. Si el
   recurso no existe, levanta una excepción.
 
