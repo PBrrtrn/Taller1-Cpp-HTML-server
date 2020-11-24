@@ -41,4 +41,15 @@ public:
   void close();
 };
 
+#define BUF_LEN 256
+
+class SocketError : public std::exception {
+private:
+  char error_msg[BUF_LEN];
+public:
+  explicit SocketError(int fd, const char* origin) noexcept;
+  virtual const char* what() const noexcept;
+  virtual ~SocketError() noexcept;
+};
+
 #endif

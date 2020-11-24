@@ -42,13 +42,13 @@ int Socket::bind(const char *service) {
       break;
     } else {
       freeaddrinfo(addresses);
-      throw std::runtime_error("SOCKET ERROR: Error in bind");
+      throw SocketError(this->fd, "failed to bind");
     }
   }
   freeaddrinfo(addresses);
 
-  if (addr == NULL) 
-    throw std::runtime_error("Could not find suitable address to bind to");
+  if (addr == NULL)
+    throw SocketError(this->fd, "no suitable address to bind to");
   return 0;
 }
 
@@ -64,19 +64,19 @@ int Socket::connect(const char *host, const char *service) {
       break;
     } else {
       freeaddrinfo(addresses);
-      throw std::runtime_error("SOCKET ERROR: Error in connect");
+      throw SocketError(this->fd, "failed to connect");
     }
   }
   freeaddrinfo(addresses);
 
   if (addr == NULL)
-    throw std::runtime_error("Could not find suitable address to connect to");
+    throw SocketError(this->fd, "no suitable address to connect to");
   return 0;
 }
 
 int Socket::listen(int queue_size) const {
   if (::listen(this->fd, queue_size) != 0)
-    throw std::runtime_error("SOCKET ERROR: Failed to start listening");
+    throw SocketError(this->fd, "failed to listen");
   return 0;
 }
 
@@ -84,7 +84,7 @@ Socket Socket::accept() const {
   Socket peer;
   peer.fd = ::accept(this->fd, NULL, NULL);
   if (peer.fd == -1) 
-    throw std::runtime_error("SOCKET ERROR: Failed to accept");
+    throw SocketError(this->fd, "failed to accept");
   return peer;
 }
 
@@ -97,7 +97,7 @@ int Socket::send(const char *data, size_t data_size) const {
                             MSG_NOSIGNAL);
 
     switch (bytes_sent) {
-      case -1 : throw std::runtime_error("SOCKET ERROR: error in send");
+      case -1 : throw SocketError(this->fd, "bad send");
       case 0 : return total_bytes_sent;
       default: total_bytes_sent += bytes_sent;
     }
@@ -112,7 +112,7 @@ int Socket::receive(char *buffer, size_t n_bytes) const {
                                 n_bytes - total_bytes_received, 0);
 
     switch (bytes_received) {
-      case -1 : throw std::runtime_error("SOCKET ERROR: error in receive");
+      case -1 : throw SocketError(this->fd, "bad receive");
       case 0 : return total_bytes_received;
       default : total_bytes_received += bytes_received;
     }
@@ -143,7 +143,17 @@ struct addrinfo* Socket::initializeAddrinfo(const char *host,
   hints.ai_flags = flags;
 
   if (getaddrinfo(host, service, &hints, &addresses) != 0)
-    throw std::runtime_error("Error in getaddrinfo");
+    throw SocketError(this->fd, "getaddrinfo failed");
   else
     return addresses;
 }
+
+SocketError::SocketError(int fd, const char* origin) noexcept {
+  snprintf(this->error_msg, BUF_LEN, "SOCKET ERROR: %s (fd: %i)", origin, fd);
+}
+
+const char* SocketError::what() const noexcept {
+  return this->error_msg;
+}
+
+SocketError::~SocketError() noexcept {}

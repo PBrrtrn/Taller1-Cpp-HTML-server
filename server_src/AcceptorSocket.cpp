@@ -11,7 +11,7 @@ AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol)
   try {
     this->socket.bind(port);
     this->socket.listen(QUEUE_SIZE);
-  } catch (std::runtime_error& e) {
+  } catch (SocketError& e) {
     std::cout << "ERROR: Could not bind to port " << port << std::endl;
     this->socket.close();
   }
@@ -30,7 +30,7 @@ void AcceptorSocket::run() {
     Socket peer;
     try {
       peer = this->socket.accept();
-    } catch (std::runtime_error& e) {
+    } catch (SocketError& e) {
       break;
     }
     ActiveSocket *active_socket = new ActiveSocket(std::move(peer), protocol);

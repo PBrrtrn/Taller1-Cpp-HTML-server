@@ -19,7 +19,7 @@ ActiveSocket::~ActiveSocket() {
 void ActiveSocket::run() {
   try {
     this->protocol.handleSocket(this->socket);
-  } catch (std::runtime_error& e) {
+  } catch (SocketError& e) {
     std::cout << "Client communication closed unexpectedly" << std::endl;
   }
 
