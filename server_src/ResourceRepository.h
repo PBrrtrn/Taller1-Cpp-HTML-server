@@ -53,4 +53,15 @@ public:
     Un string con una copia del recurso almacenado.                          */
 };
 
+#define BUF_LEN 256
+
+class ResourceNotFoundError : public std::exception {
+private:
+  char error_msg[BUF_LEN];
+public:
+  explicit ResourceNotFoundError(const char* resource_name) noexcept;
+  virtual const char* what() const noexcept;
+  virtual ~ResourceNotFoundError() noexcept;
+};
+
 #endif

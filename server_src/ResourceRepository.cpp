@@ -23,6 +23,17 @@ std::string ResourceRepository::getResource(const std::string& resource_name) {
   if (it != this->resources.end()) {
     return it->second;
   } else {
-    throw std::runtime_error("Resource does not exist");
+    throw ResourceNotFoundError("Resource does not exist");
   }
 }
+
+ResourceNotFoundError::ResourceNotFoundError
+      (const char* resource_name) noexcept {
+  snprintf(this->error_msg, BUF_LEN, "Resource not found: %s", resource_name);
+}
+
+const char* ResourceNotFoundError::what() const noexcept {
+  return this->error_msg;
+}
+
+ResourceNotFoundError::~ResourceNotFoundError() noexcept {}
