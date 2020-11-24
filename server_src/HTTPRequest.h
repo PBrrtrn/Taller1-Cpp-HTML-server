@@ -13,6 +13,7 @@ class HTTPRequest {
   que toda clase derivada de HTTPRequest compartirá su interface.            */
 protected:
   std::string resource_name;
+
 public:
   explicit HTTPRequest(const std::string& resource_name);
   /* Constructor genérico que inicializa los miembros compartidos por todas las

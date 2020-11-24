@@ -19,6 +19,7 @@ private:
     Un bool que indica si existe la clave resource_name en el mapa         */
   std::mutex mutex;
   std::unordered_map<std::string, std::string> resources;
+
 public:
   explicit ResourceRepository(const char *root_contents_path);
   /* Constructor de ResourceRespository; instancia el objeto con un directorio

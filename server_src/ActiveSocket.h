@@ -17,6 +17,7 @@ private:
   Protocol& protocol;
   bool finished_talking = false;
   Socket socket;
+
 public:
   ActiveSocket(Socket socket, Protocol& protocol);
   /* Constructor de la clase. Establece al momento de construir el socket, el
