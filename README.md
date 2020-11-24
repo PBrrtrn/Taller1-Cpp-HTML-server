@@ -56,3 +56,5 @@ Una vez recibido el petitorio del cliente, este se usa para construir un *string
 Una clase derivada de **HTTPResponse** recibe por parámetro referencias a los strings necesarios para su construcción; sin embargo, no guarda estas referencias, si no que copia sus contenidos a una variable interna. Cada clase derivada debe entonces implementar un método *getResponse* que devuelve un string con la respuesta al pedido del cliente en texto plano. 
 
 Así, a partir del string con el pedido del cliente, HTTPProtocol crea un HTTPRequest y lo ejecuta, obteniendo un HTTPResponse. Luego se llama a *getResponse* para obtener un string con la respuesta, el cual es casteado a una cadena de caracteres y enviado de vuelta al cliente.
+
+![Diagrama de clases](https://github.com/PBrrtrn/7542-2C2020-TP3/blob/master/img/diagrama_de_clase_2.png)
