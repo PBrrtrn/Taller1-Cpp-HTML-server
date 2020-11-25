@@ -12,7 +12,7 @@ AcceptorSocket::AcceptorSocket(const char* port, Protocol& protocol)
     this->socket.bind(port);
     this->socket.listen(QUEUE_SIZE);
   } catch (SocketError& e) {
-    std::cout << "ERROR: Could not bind to port " << port << std::endl;
+    std::cout << e.what() << " (port " << port << ")" << std::endl;
     this->socket.close();
   }
 }

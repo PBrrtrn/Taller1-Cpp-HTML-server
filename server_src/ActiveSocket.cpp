@@ -20,7 +20,8 @@ void ActiveSocket::run() {
   try {
     this->protocol.handleSocket(this->socket);
   } catch (SocketError& e) {
-    std::cout << "Client communication closed unexpectedly" << std::endl;
+    std::cout << "Client communication closed unexpectedly:" 
+    << e.what() << std::endl;
   }
 
   socket.shutdown();
